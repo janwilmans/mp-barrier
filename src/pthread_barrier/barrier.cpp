@@ -4,9 +4,9 @@
 
 #include "barrier.h"
 
+#include "fmt/core.h"
 #include <string>
 #include <string_view>
-#include "fmt/core.h"
 
 
 Barrier::Barrier(std::string_view unique_handle, int count)
@@ -28,5 +28,5 @@ void Barrier::wait()
 
 std::string Barrier::get_handle_filename(std::string_view id)
 {
-    return fmt::format("/mp.barrier.{}", id);
+    return fmt::format("/mp.pthread.barrier.{}", id);
 }

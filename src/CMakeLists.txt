@@ -27,27 +27,6 @@ endif()
 #add_compile_options(-fsanitize=thread -g -O1)
 #add_link_options(-fsanitize=thread)
 
-add_library(mp_barrier_c_library
-  pthread_barrier.c
-)
+add_subdirectory(pthread_barrier)
 
-target_link_libraries(mp_barrier_c_library
-  PUBLIC
-    pthread
-    rt
-)
-
-
-add_executable(mp-barrier
-    barrier.cpp
-    main.cpp
-)
-
-find_package(Threads REQUIRED)
-
-target_link_libraries(mp-barrier
-  PRIVATE
-    Threads::Threads
-    fmt::fmt
-    mp_barrier_c_library
-)
+add_subdirectory(semaphore_barrier)
