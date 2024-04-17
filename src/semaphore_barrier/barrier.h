@@ -19,9 +19,6 @@ public:
     void post();
     void wait();
 
-
 private:
-    std::string get_handle_filename(std::string_view id);
-
     sem_t * m_semaphore = nullptr;
 };

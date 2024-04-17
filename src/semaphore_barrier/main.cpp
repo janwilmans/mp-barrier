@@ -2,6 +2,7 @@
  * Copyright (c) 2024 Jan Wilmans.
  */
 
+#include "alive.h"
 #include "barrier.h"
 #include "lifecycle.h"
 
@@ -30,6 +31,8 @@ void wait_at_barrier()
 
 int main(int argc, char * argv[])
 {
+    Alive alive("main.test");
+
     Lifecycle lifecycle("mp_sem_barrier", [] {
         fmt::print("{} program ended unexpectedly !!\n", getpid());
     });

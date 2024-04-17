@@ -10,6 +10,7 @@ target_link_libraries(named_semaphore_barrier_c_library
 )
 
 add_executable(mp-semaphore-barrier
+    alive.cpp
     lifecycle.cpp
     barrier.cpp
     main.cpp
@@ -22,4 +23,18 @@ target_link_libraries(mp-semaphore-barrier
     Threads::Threads
     fmt::fmt
     named_semaphore_barrier_c_library
+    mp_barrier_c_library
+)
+
+add_executable(alive_main
+    alive.cpp
+    alive_test.cpp
+)
+
+target_link_libraries(alive_main
+  PRIVATE
+    Threads::Threads
+    fmt::fmt
+    named_semaphore_barrier_c_library
+    mp_barrier_c_library
 )

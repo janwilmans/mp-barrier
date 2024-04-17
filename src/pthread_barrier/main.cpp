@@ -6,14 +6,18 @@
 
 #include "fmt/core.h"
 
+#include <chrono>
+#include <thread>
 #include <unistd.h>
 
 void create_barrier()
 {
-    Barrier barrier("software_trigger", 3); // wait for three processes
-    fmt::print("1 holding at barrier\n");
-    barrier.wait();
-    fmt::print("1 passed barrier\n");
+    Barrier barrier("software_trigger", 2); // wait for three processes
+    fmt::print("created barrier for 2 waiters...\n");
+    while (true)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+    }
 }
 
 void wait_at_barrier()
@@ -24,7 +28,7 @@ void wait_at_barrier()
     fmt::print("{} passed barrier\n", getpid());
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char * argv[])
 {
     if (argc > 1)
     {
@@ -34,7 +38,5 @@ int main(int argc, char *argv[])
     {
         create_barrier();
     }
-    //barrier.wait(100ms); // timeout
+    // barrier.wait(100ms); // timeout
 }
-
-

@@ -8,6 +8,11 @@
 #include <string>
 #include <string_view>
 
+static std::string get_handle_filename(std::string_view id)
+{
+    return fmt::format("/mp.lifecycle.{}", id);
+}
+
 Lifecycle::Lifecycle(std::string_view unique_handle, unexpected_termination_callback callback) :
     m_name(get_handle_filename(unique_handle))
 {
@@ -28,9 +33,4 @@ Lifecycle::~Lifecycle()
         perror("sem_unlink");
         exit(EXIT_FAILURE);
     }
-}
-
-std::string Lifecycle::get_handle_filename(std::string_view id)
-{
-    return fmt::format("/mp.lifecycle.{}", id);
 }

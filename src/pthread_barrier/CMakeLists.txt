@@ -9,6 +9,7 @@ target_link_libraries(mp_barrier_c_library
     rt
 )
 
+target_include_directories(mp_barrier_c_library PUBLIC .)
 
 add_executable(mp-pthread-barrier
     barrier.cpp

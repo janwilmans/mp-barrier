@@ -19,8 +19,6 @@ public:
     ~Lifecycle();
 
 private:
-    std::string get_handle_filename(std::string_view id);
-
     std::string m_name;
     sem_t * m_semaphore = nullptr;
 };

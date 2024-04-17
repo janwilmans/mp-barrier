@@ -8,6 +8,10 @@
 #include <string>
 #include <string_view>
 
+static std::string get_handle_filename(std::string_view id)
+{
+    return fmt::format("/mp.semaphore.barrier.{}", id);
+}
 
 Barrier::Barrier(std::string_view unique_handle)
 {
@@ -28,15 +32,9 @@ void Barrier::post()
     sem_post(m_semaphore);
 }
 
-
 // count is the semaphore count to wait for
 void Barrier::wait()
 {
     // sem_timedwait()
     sem_wait(m_semaphore);
-}
-
-std::string Barrier::get_handle_filename(std::string_view id)
-{
-    return fmt::format("/mp.semaphore.barrier.{}", id);
 }
