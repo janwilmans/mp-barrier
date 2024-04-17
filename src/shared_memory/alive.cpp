@@ -24,7 +24,6 @@ Alive::Alive(std::string_view unique_handle) :
     m_name(get_handle_filename(unique_handle))
 {
     m_fd = create_shared_memory_handle(m_name.c_str());
-    fmt::print("{} open, trying to lock it\n", m_name);
     flock(m_fd, LOCK_EX); // lock the handle, automatically released when if the process ends for any reason.
 }
 
@@ -48,7 +47,7 @@ bool is_alive(std::string_view unique_handle)
     int fd = open_shared_memory_handle(name.c_str());
     if (fd == -1)
     {
-        fmt::print("could not find {}\n", name);
+        fmt::print(stderr, "could not find {}\n", name);
         return false;
     }
     bool result = is_file_handled_locked(fd);
