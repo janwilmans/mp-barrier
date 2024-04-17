@@ -2,6 +2,8 @@
  * Copyright (c) 2024 Jan Wilmans.
  */
 
+#pragma once
+
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdbool.h>

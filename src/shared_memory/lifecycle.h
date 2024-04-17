@@ -2,6 +2,8 @@
  * Copyright (c) 2024 Jan Wilmans.
  */
 
+#pragma once
+
 extern "C"
 {
 #include "named_semaphore.h"

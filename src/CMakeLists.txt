@@ -21,6 +21,8 @@ if (NOT BUILD_VCENTER_TREE)
 
 endif()
 
+find_package(Threads REQUIRED)
+
 #add_compile_options(-fsanitize=address)
 #add_link_options(-fsanitize=address)
 
@@ -29,4 +31,4 @@ endif()
 
 add_subdirectory(pthread_barrier)
 
-add_subdirectory(semaphore_barrier)
+add_subdirectory(shared_memory)
