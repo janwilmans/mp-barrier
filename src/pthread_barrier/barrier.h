@@ -7,6 +7,7 @@ extern "C"
 #include "pthread_barrier.h"
 }
 
+#include <string>
 #include <string_view>
 
 class Barrier
@@ -14,6 +15,7 @@ class Barrier
 public:
     Barrier(std::string_view unique_handle, int count);
     Barrier(std::string_view unique_handle);
+    ~Barrier();
 
     void wait();
 
@@ -23,4 +25,5 @@ private:
 
     int m_shm_fd;
     shared_barrier * m_shared_barrier;
+    std::string m_name;
 };
