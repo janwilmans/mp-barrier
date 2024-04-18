@@ -95,7 +95,7 @@ However if you want to know, after reboot, if the shutdown was normal, just spec
 
 * [barrier.cpp](https://github.com/janwilmans/mp-barrier/blob/0.2/src/pthread_barrier/barrier.cpp) is a class Barrier that implements a multi-process barrier that is multi-shot and cleans up after itself.
 * [alive.cpp](https://github.com/janwilmans/mp-barrier/blob/0.2/src/filesystem_lock/alive.cpp) is the class Alive as described above, based on filesystem locks.
-* [lifecycle.cpp](https://github.com/janwilmans/mp-barrier/blob/0.2/src/semaphore/lifecycle.cpp) specifically only implements the 'did I close normally callback behaviour', just like class Alive, but based on a semaphore instead of filesystem locking. 
+* [lifecycle.cpp](https://github.com/janwilmans/mp-barrier/blob/0.2/src/semaphore/lifecycle.cpp) specifically only implements the 'did I close normally callback behaviour', just like class Alive, but based on a semaphore instead of filesystem locking. This is mostly for educational purposes and redundant now that class Alive also provides this feature (and it is flexible because you can chose to preserve the state after reboot)
  
 
 
