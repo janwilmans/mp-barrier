@@ -8,31 +8,33 @@
 #include <string>
 #include <string_view>
 
+#include <fcntl.h>
 #include <sys/file.h>
-#include <sys/mman.h>
 #include <unistd.h>
 
 #include <chrono>
+#include <filesystem>
 #include <thread>
 
-static std::string get_handle_filename(std::string_view id)
+Alive::Alive(std::filesystem::path unique_filename, unexpected_termination_callback callback) :
+    m_name(unique_filename)
 {
-    return fmt::format("/mp.alive.{}", id);
-}
+    if (callback && std::filesystem::exists(m_name.c_str()))
+    {
+        callback();
+    }
 
-Alive::Alive(std::string_view unique_handle) :
-    m_name(get_handle_filename(unique_handle))
-{
-    m_fd = create_shared_memory_handle(m_name.c_str());
+    m_fd = open(m_name.c_str(), O_RDWR | O_CREAT, 0666);
     flock(m_fd, LOCK_EX); // lock the handle, automatically released when if the process ends for any reason.
 }
+
 
 Alive::~Alive()
 {
     // fails if it was never created, but thats fine, ignore it.
     flock(m_fd, LOCK_UN);
     close(m_fd);
-    shm_unlink(m_name.c_str());
+    unlink(m_name.c_str());
 }
 
 bool is_file_handled_locked(int fd)
@@ -41,13 +43,12 @@ bool is_file_handled_locked(int fd)
     return flock(fd, LOCK_EX | LOCK_NB) == -1;
 }
 
-bool is_alive(std::string_view unique_handle)
+bool is_alive(std::filesystem::path unique_filename)
 {
-    std::string name = get_handle_filename(unique_handle);
-    int fd = open_shared_memory_handle(name.c_str());
+    int fd = open(unique_filename.c_str(), O_RDWR | O_CREAT, 0666);
     if (fd == -1)
     {
-        fmt::print(stderr, "could not find {}\n", name);
+        fmt::print(stderr, "could not find {}\n", unique_filename.string());
         return false;
     }
     bool result = is_file_handled_locked(fd);
@@ -55,12 +56,12 @@ bool is_alive(std::string_view unique_handle)
     return result;
 }
 
-bool wait_for_alive(std::string_view unique_handle, std::chrono::milliseconds timeout)
+bool wait_for_alive(std::filesystem::path unique_filename, std::chrono::milliseconds timeout)
 {
     auto time_limit = std::chrono::steady_clock::now() + timeout;
     while (std::chrono::steady_clock::now() < time_limit)
     {
-        if (is_alive(unique_handle))
+        if (is_alive(unique_filename))
         {
             return true;
         }
@@ -69,9 +70,9 @@ bool wait_for_alive(std::string_view unique_handle, std::chrono::milliseconds ti
     return false;
 }
 
-void wait_for_alive(std::string_view unique_handle)
+void wait_for_alive(std::filesystem::path unique_filename)
 {
-    while (!is_alive(unique_handle))
+    while (!is_alive(unique_filename))
     {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }

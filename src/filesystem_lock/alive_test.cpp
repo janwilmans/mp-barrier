@@ -4,7 +4,6 @@
 
 #include "alive.h"
 #include "barrier.h"
-#include "lifecycle.h"
 
 #include "fmt/core.h"
 
@@ -16,8 +15,16 @@ using namespace std::chrono_literals;
 
 void alive_create()
 {
-    Alive alive("main.test");
-    fmt::print(stderr, "I'm alive and looping forever...press ctrl-c to stop.\n");
+    Alive alive("/tmp/main.test");
+    fmt::print(stderr, "I'm alive ...press ctrl-c within 3 seconds to test the 'unexpected shutdown' scenario.\n");
+    {
+        Alive unexpected_shutdown_demo("/tmp/main.shutdown", [] {
+            fmt::print("program ended unexpectedly !!\n");
+        });
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+    }
+    fmt::print(stderr, "Looping forever, ...press ctrl-c to stop.\n");
+
     while (true)
     {
         std::this_thread::sleep_for(std::chrono::seconds(2));
@@ -27,7 +34,7 @@ void alive_create()
 void alive_check()
 {
     fmt::print(stderr, "waiting up to 10 seconds for process to start...\n");
-    if (wait_for_alive("main.test", 10000ms))
+    if (wait_for_alive("/tmp/main.test", 10000ms))
     {
         fmt::print(stderr, "Process started! I'm done.\n");
         return;

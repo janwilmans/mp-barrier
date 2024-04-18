@@ -2,7 +2,7 @@ project(mp-barrier)
 
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-if (NOT BUILD_VCENTER_TREE)
+if (NOT BUILD_IN_TREE)
 
     message(STATUS "Building ${PROJECT_NAME} as standalone project")
 
@@ -30,5 +30,5 @@ find_package(Threads REQUIRED)
 #add_link_options(-fsanitize=thread)
 
 add_subdirectory(pthread_barrier)
-
-add_subdirectory(shared_memory)
+add_subdirectory(filesystem_lock)
+add_subdirectory(semaphore)
