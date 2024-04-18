@@ -90,8 +90,11 @@ Depending on where you keep the file, this state will survive a reboot on the sy
 However if you want to know, after reboot, if the shutdown was normal, just specify a location in the home-directory `~/.yourstatefile`.
 
 
+# Version 2 implementation
 
-
+* (alive.cpp)[https://github.com/janwilmans/mp-barrier/blob/main/src/filesystem_lock/alive.cpp] is the class Alive as described above, based on filesystem locks.
+  (alive.cpp)[https://github.com/janwilmans/mp-barrier/blob/main/src/filesystem_lock/alive.cpp] is the class Alive as described above, based on filesystem locks.
+ 
 
 
 
