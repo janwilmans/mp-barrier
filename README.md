@@ -92,8 +92,9 @@ However if you want to know, after reboot, if the shutdown was normal, just spec
 
 # Version 2 implementation
 
-* (alive.cpp)[https://github.com/janwilmans/mp-barrier/blob/main/src/filesystem_lock/alive.cpp] is the class Alive as described above, based on filesystem locks.
-  (alive.cpp)[https://github.com/janwilmans/mp-barrier/blob/main/src/filesystem_lock/alive.cpp] is the class Alive as described above, based on filesystem locks.
+* [barrier.cpp](https://github.com/janwilmans/mp-barrier/blob/main/src/pthread_barrier/barrier.cpp) is a class Barrier that implements a multi-process barrier that is multi-shot and cleans up after itself.
+* [alive.cpp](https://github.com/janwilmans/mp-barrier/blob/main/src/filesystem_lock/alive.cpp) is the class Alive as described above, based on filesystem locks.
+* [lifecycle.cpp](https://github.com/janwilmans/mp-barrier/blob/main/src/semaphore/lifecycle.cpp) spicifically 
  
 
 
