@@ -11,30 +11,11 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-void set_shared_memory_object_size(int shm_fd, int size)
-{
-    if (ftruncate(shm_fd, size) == -1)
-    {
-        perror("ftruncate");
-        exit(EXIT_FAILURE);
-    }
-}
 
-void * map_shared_memory_into_address_space(int shm_fd, int size)
+shared_barrier * create_shared_barrier(int shm_fd, unsigned barrier_count)
 {
-    void * shm_ptr = mmap(NULL, sizeof(shared_barrier), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shm_ptr == MAP_FAILED)
-    {
-        perror("mmap");
-        exit(EXIT_FAILURE);
-    }
-    return shm_ptr;
-}
-
-shared_barrier * create_shared_barrier(int shm_fd, int barrier_count)
-{
-    set_shared_memory_object_size(shm_fd, sizeof(shared_barrier));
-    void * shm_ptr = map_shared_memory_into_address_space(shm_fd, sizeof(shared_barrier));
+    set_object_size(shm_fd, sizeof(shared_barrier));
+    void * shm_ptr = map_into_address_space(shm_fd, sizeof(shared_barrier));
 
     // Initialize the shared data structures
     shared_barrier * shared_data = (shared_barrier *)shm_ptr;
@@ -47,7 +28,7 @@ shared_barrier * create_shared_barrier(int shm_fd, int barrier_count)
 
 shared_barrier * get_shared_barrier(int shm_fd)
 {
-    set_shared_memory_object_size(shm_fd, sizeof(shared_barrier));
-    void * shm_ptr = map_shared_memory_into_address_space(shm_fd, sizeof(shared_barrier));
+    set_object_size(shm_fd, sizeof(shared_barrier));
+    void * shm_ptr = map_into_address_space(shm_fd, sizeof(shared_barrier));
     return (shared_barrier *)shm_ptr;
 }

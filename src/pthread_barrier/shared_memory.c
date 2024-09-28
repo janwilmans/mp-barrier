@@ -34,3 +34,20 @@ int open_shared_memory_handle(const char * file)
     }
     return shm_fd;
 }
+
+// these function aren't specific to shared memory, they can also operator on regular file handles
+
+bool set_object_size(int fd, off_t size)
+{
+    return ftruncate(fd, size) == 0;
+}
+
+void * map_into_address_space(int fd, size_t size)
+{
+    void * ptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (ptr == MAP_FAILED)
+    {
+        return 0;
+    }
+    return ptr;
+}

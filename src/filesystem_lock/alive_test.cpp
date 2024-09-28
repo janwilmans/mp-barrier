@@ -42,7 +42,7 @@ void alive_check()
     fmt::print(stderr, "Timeout after 10 seconds... I'm done waiting.\n");
 }
 
-int main(int argc, char * argv[])
+int main(int argc, char * /*argv*/[])
 {
     fmt::print("usage: alive_test <wait>\n");
     fmt::print("   if 'wait' is given, the program waits for an instance of the program without 'wait' to start.\n");

@@ -9,7 +9,7 @@
 #include <chrono>
 #include <thread>
 
-int main(int argc, char * argv[])
+int main(int /*argc*/, char * /*argv*/[])
 {
     fmt::print("press ctrl-c within 3 seconds and restart this program to see we detect an unexpected program end.\n");
 

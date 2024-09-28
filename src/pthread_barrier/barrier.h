@@ -13,7 +13,7 @@ extern "C"
 class Barrier
 {
 public:
-    Barrier(std::string_view unique_handle, int count);
+    Barrier(std::string_view unique_handle, unsigned count);
     Barrier(std::string_view unique_handle);
     ~Barrier();
 
@@ -26,4 +26,5 @@ private:
     int m_shm_fd;
     shared_barrier * m_shared_barrier;
     std::string m_name;
+    bool m_unlink = false;
 };

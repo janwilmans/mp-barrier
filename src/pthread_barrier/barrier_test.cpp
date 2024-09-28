@@ -42,7 +42,7 @@ extern "C" void signal_handler(int signal)
     end_program = true;
 }
 
-int main(int argc, char * argv[])
+int main(int argc, char * /*argv*/[])
 {
     signal(SIGINT, signal_handler);
 
